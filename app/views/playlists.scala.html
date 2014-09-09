@@ -1,0 +1,25 @@
+@(token: String)
+
+@main("Test") {
+
+
+<table id="playlist" class="display" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th>Ägare</th>
+        <th>Antal låtar</th>
+        <th>Spellista</th>
+    </tr>
+    </thead>
+</table>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#playlist').dataTable( {
+         "ajax": "http://localhost:9000/getPlayList?accessToken=@token"
+        } );
+} );
+</script>
+}

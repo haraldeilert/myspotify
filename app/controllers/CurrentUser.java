@@ -2,11 +2,9 @@ package controllers;
 
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.methods.PlaylistTracksRequest;
 import com.wrapper.spotify.methods.UserPlaylistsRequest;
-import com.wrapper.spotify.models.AuthorizationCodeCredentials;
-import com.wrapper.spotify.models.Page;
-import com.wrapper.spotify.models.SimplePlaylist;
-import com.wrapper.spotify.models.User;
+import com.wrapper.spotify.models.*;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -33,7 +31,7 @@ public class CurrentUser {
     private static final String redirectUri = "http://localhost:9000/callback";
 
     /* Create a default API instance that will be used to make requests to Spotify */
-    private static final Api api = Api.builder().clientId(clientId).clientSecret(clientSecret).redirectURI(redirectUri).build();
+    private static Api api = Api.builder().clientId(clientId).clientSecret(clientSecret).redirectURI(redirectUri).build();
 
     /* Retrieve an access token.
      * The token response contains a refresh token, an accesstoken, and some other things.
@@ -52,20 +50,34 @@ public class CurrentUser {
 
     }
 
-    public static void getPlaylistsForUser(String userId, String accessToken) {
+    public static Page<PlaylistTrack> getTracksFromPlayList(String userId, String playListId, String accessToken){
+        api.setAccessToken(accessToken);
 
-        UserPlaylistsRequest request = api.getPlaylistsForUser(userId).accessToken(accessToken).build();
+
+        PlaylistTracksRequest request = api.getPlaylistTracks(userId, playListId).build();
 
         try {
-            Page<SimplePlaylist> playlistsPage = request.get();
+            return request.get();
 
-            for (SimplePlaylist playlist : playlistsPage.getItems()) {
-                System.out.println(playlist.getName());
-            }
+        } catch (Exception e) {
+            System.out.println("******************************" + e.getMessage());
+            e.printStackTrace();
+            System.out.println("******************************" + e.getMessage());
+        }
+        return null;
+    }
+
+    public static Page<SimplePlaylist> getPlaylistsForUser(String userId, String accessToken) {
+
+        UserPlaylistsRequest request = api.getPlaylistsForUser(userId).accessToken(accessToken).build();
+        Page<SimplePlaylist> playlistsPage = null;
+        try {
+            playlistsPage = request.get();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Something went wrong!" + e.getMessage());
         }
+        return playlistsPage;
     }
 
     public static User getCurrentUser(String accessToken) {
