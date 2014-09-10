@@ -15,8 +15,8 @@ public class CurrentUser {
     /* Application details necessary to get an access token */
     private static final String clientId = "49d41b67c05f4be1980721d19f86ecb2";
     private static final String clientSecret = "7d642cbd53794d58b8b5c93856c2d0d2";
-    //private static final String redirectUri = "http://myspotify.herokuapp.com/callback";
-    private static final String redirectUri = "http://localhost:9000/callback";
+    private static final String redirectUri = "http://myspotify.herokuapp.com/callback";
+    //private static final String redirectUri = "http://localhost:9000/callback";
 
     /* Create a default API instance that will be used to make requests to Spotify */
     private static Api api = Api.builder().clientId(clientId).clientSecret(clientSecret).redirectURI(redirectUri).build();
