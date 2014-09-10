@@ -1,11 +1,10 @@
 package controllers;
 
-import com.wrapper.spotify.models.Page;
-import com.wrapper.spotify.models.PlaylistTracksInformation;
-import com.wrapper.spotify.models.SimplePlaylist;
-import com.wrapper.spotify.models.User;
+import com.wrapper.spotify.models.*;
 import play.mvc.Controller;
 import play.mvc.Result;
+
+import java.util.List;
 
 public class Application extends Controller {
 
@@ -23,30 +22,54 @@ public class Application extends Controller {
         User user = CurrentUser.getCurrentUser(accessToken);
         Page<SimplePlaylist> playlistPage = CurrentUser.getPlaylistsForUser(user.getId(), accessToken);
 
-        String test = "{\"data\": [";
-        boolean first = false;
+        String jsonStr = "{\"data\": [";
+        boolean first = true;
         for (SimplePlaylist playlist : playlistPage.getItems()) {
 
-            if (first)
-                test += ",";
+            Page<PlaylistTrack> page = CurrentUser.getTracksFromPlayList(user.getId(), playlist.getId(), accessToken);
 
-            PlaylistTracksInformation playlistTracksInformation = playlist.getTracks();
+            if (page != null) {
 
-            test += "[\n" +
-                    "      \"" + playlist.getOwner() + "\",\n" +
-                    "      \"" + playlistTracksInformation.getTotal() + "\",\n" +
-                    "      \"" + playlist.getName() + "\"\n" +
-                    "    ]";
+                try {
+                    final List<PlaylistTrack> playlistTracks = page.getItems();
+
+                    for (PlaylistTrack playlistTrack : playlistTracks) {
+                        List<SimpleArtist> simpleArtistList = playlistTrack.getTrack().getArtists();
+                        String artists = "";
 
 
-            first = true;
+                        for (SimpleArtist simpleArtist : simpleArtistList) {
+                            if (!"".equals(artists))
+                                artists += ", ";
+                            if (simpleArtist.getName() != null && !"".equals(simpleArtist.getName()))
+                                artists += simpleArtist.getName();
+                        }
+                        if (!first)
+                            jsonStr += ", ";
+
+                        jsonStr += "[" +
+                                "      \"" + playlistTrack.getTrack().getName() + "\"," +
+                                "      \"" + artists + "\"," +
+                                "      \"" + playlistTrack.getTrack().getAlbum().getName() + "\"," +
+                                "      \"" + playlist.getName() +
+                                "\"   ]";
+
+                        first = false;
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("Something went wrong!" + e.getMessage());
+                }
+            } else {
+                System.out.println("*****page is null: " + playlist.getName());
+            }
         }
 
 
-        test += "]\n" +
+        jsonStr += "]" +
                 "}";
 
-        return ok(test);
+        return ok(jsonStr);
 
     }
 }

@@ -52,24 +52,21 @@ public class CurrentUser {
 
     public static Page<PlaylistTrack> getTracksFromPlayList(String userId, String playListId, String accessToken){
         api.setAccessToken(accessToken);
-
-
         PlaylistTracksRequest request = api.getPlaylistTracks(userId, playListId).build();
+        System.out.println("******************************request.toStringWithQuery(): " + request.toStringWithQueryParameters());
 
         try {
             return request.get();
 
         } catch (Exception e) {
-            System.out.println("******************************" + e.getMessage());
             e.printStackTrace();
-            System.out.println("******************************" + e.getMessage());
         }
         return null;
     }
 
     public static Page<SimplePlaylist> getPlaylistsForUser(String userId, String accessToken) {
-
-        UserPlaylistsRequest request = api.getPlaylistsForUser(userId).accessToken(accessToken).build();
+        api.setAccessToken(accessToken);
+        UserPlaylistsRequest request = api.getPlaylistsForUser(userId).build();
         Page<SimplePlaylist> playlistsPage = null;
         try {
             playlistsPage = request.get();

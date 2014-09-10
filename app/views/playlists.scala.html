@@ -1,13 +1,14 @@
 @(token: String)
 
-@main("Test") {
+@main("Mina låtar på Spotify") {
 
 
 <table id="playlist" class="display" cellspacing="0" width="100%">
     <thead>
     <tr>
-        <th>Ägare</th>
-        <th>Antal låtar</th>
+        <th>Låt</th>
+        <th>Artist</th>
+        <th>Album</th>
         <th>Spellista</th>
     </tr>
     </thead>
@@ -18,7 +19,7 @@
 <script>
     $(document).ready(function() {
         $('#playlist').dataTable( {
-         "ajax": "http://localhost:9000/getPlayList?accessToken=@token"
+         "ajax": "getPlayList?accessToken=@token"
         } );
 } );
 </script>
