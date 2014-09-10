@@ -1,6 +1,8 @@
 package controllers;
 
 import com.wrapper.spotify.models.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -21,40 +23,31 @@ public class Application extends Controller {
     public static Result getPlayList(String accessToken) {
         User user = CurrentUser.getCurrentUser(accessToken);
         Page<SimplePlaylist> playlistPage = CurrentUser.getPlaylistsForUser(user.getId(), accessToken);
+        JSONArray mainArray = new JSONArray();
 
-        String jsonStr = "{\"data\": [";
-        boolean first = true;
         for (SimplePlaylist playlist : playlistPage.getItems()) {
-
             Page<PlaylistTrack> page = CurrentUser.getTracksFromPlayList(user.getId(), playlist.getId(), accessToken);
-
             if (page != null) {
-
                 try {
                     final List<PlaylistTrack> playlistTracks = page.getItems();
 
                     for (PlaylistTrack playlistTrack : playlistTracks) {
                         List<SimpleArtist> simpleArtistList = playlistTrack.getTrack().getArtists();
                         String artists = "";
-
-
                         for (SimpleArtist simpleArtist : simpleArtistList) {
                             if (!"".equals(artists))
                                 artists += ", ";
                             if (simpleArtist.getName() != null && !"".equals(simpleArtist.getName()))
                                 artists += simpleArtist.getName();
                         }
-                        if (!first)
-                            jsonStr += ", ";
+                        JSONArray playListArray = new JSONArray();
 
-                        jsonStr += "[" +
-                                "      \"" + playlistTrack.getTrack().getName() + "\"," +
-                                "      \"" + artists + "\"," +
-                                "      \"" + playlistTrack.getTrack().getAlbum().getName() + "\"," +
-                                "      \"" + playlist.getName() +
-                                "\"   ]";
+                        playListArray.add(playlistTrack.getTrack().getName());
+                        playListArray.add(artists);
+                        playListArray.add(playlistTrack.getTrack().getAlbum().getName());
+                        playListArray.add(playlist.getName());
 
-                        first = false;
+                        mainArray.add(playListArray);
                     }
 
                 } catch (Exception e) {
@@ -64,12 +57,9 @@ public class Application extends Controller {
                 System.out.println("*****page is null: " + playlist.getName());
             }
         }
+        JSONObject data = new JSONObject();
+        data.put("data", mainArray);
 
-
-        jsonStr += "]" +
-                "}";
-
-        return ok(jsonStr);
-
+        return ok(data.toJSONString());
     }
 }
