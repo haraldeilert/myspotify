@@ -5,6 +5,7 @@ import com.wrapper.spotify.exceptions.WebApiException;
 import com.wrapper.spotify.methods.PlaylistTracksRequest;
 import com.wrapper.spotify.methods.UserPlaylistsRequest;
 import com.wrapper.spotify.models.*;
+import play.Logger;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,12 +31,11 @@ public class CurrentUser {
         try {
             authorizationCodeCredentials = api.authorizationCodeGrant(code).build().get();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         } catch (WebApiException e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
         return authorizationCodeCredentials.getAccessToken();
-
     }
 
     public static Page<PlaylistTrack> getTracksFromPlayList(String userId, String playListId, String accessToken) {
@@ -44,7 +44,7 @@ public class CurrentUser {
         try {
             return request.get();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
         return null;
     }
@@ -56,8 +56,7 @@ public class CurrentUser {
         try {
             playlistsPage = request.get();
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Something went wrong!" + e.getMessage());
+            Logger.error(e.getMessage());
         }
         return playlistsPage;
     }
@@ -67,8 +66,7 @@ public class CurrentUser {
         try {
             currentUser = api.getMe().accessToken(accessToken).build().get();
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Something went wrong." + e.getMessage());
+            Logger.error(e.getMessage());
         }
         return currentUser;
     }

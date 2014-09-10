@@ -3,6 +3,7 @@ package controllers;
 import com.wrapper.spotify.models.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -29,8 +30,7 @@ public class Application extends Controller {
             Page<PlaylistTrack> page = CurrentUser.getTracksFromPlayList(user.getId(), playlist.getId(), accessToken);
             if (page != null) {
                 try {
-                    final List<PlaylistTrack> playlistTracks = page.getItems();
-
+                    List<PlaylistTrack> playlistTracks = page.getItems();
                     for (PlaylistTrack playlistTrack : playlistTracks) {
                         List<SimpleArtist> simpleArtistList = playlistTrack.getTrack().getArtists();
                         String artists = "";
@@ -41,25 +41,22 @@ public class Application extends Controller {
                                 artists += simpleArtist.getName();
                         }
                         JSONArray playListArray = new JSONArray();
-
                         playListArray.add(playlistTrack.getTrack().getName());
                         playListArray.add(artists);
                         playListArray.add(playlistTrack.getTrack().getAlbum().getName());
                         playListArray.add(playlist.getName());
-
                         mainArray.add(playListArray);
                     }
 
                 } catch (Exception e) {
-                    System.out.println("Something went wrong!" + e.getMessage());
+                   Logger.error("Something went wrong!" + e.getMessage());
                 }
             } else {
-                System.out.println("*****page is null: " + playlist.getName());
+                Logger.error("*****page is null: " + playlist.getName());
             }
         }
         JSONObject data = new JSONObject();
         data.put("data", mainArray);
-
         return ok(data.toJSONString());
     }
 }
