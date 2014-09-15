@@ -15,12 +15,38 @@
 </table>
 
 
-
 <script>
     $(document).ready(function() {
+
         $('#playlist').dataTable( {
-         "ajax": "getPlayList?accessToken=@token"
-        } );
-} );
+         "ajax": "getPlayList?accessToken=@token",
+         "columnDefs": [
+    	                       {
+    	                           // The `data` parameter refers to the data for the cell (defined by the
+    	                           // `data` option, which defaults to the column being worked with, in
+    	                           // this case `data: 0`.
+    	                           "render": function ( data, type, row ) {
+        	                           if(data == 'collaborative-list456'){
+    	                               		return '<img src="/assets/images/info.png" height="20" width="20" data-toggle="tooltip" data-placement="right" title="" data-original-title="Songs in collaborative playlists are currently not returned by the Web API."/>';
+    	                               } else {
+        	                            return data;
+        	                           }
+         	                           },
+    	                           "targets": 0
+    	                       }
+    	                   ],"fnDrawCallback": function () {
+                	 			 $("[data-toggle='tooltip']").tooltip();
+    	                   },
+          "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+
+             switch(aData[1]){
+                    case '':
+                        $('td:eq(0)', nRow).addClass('collaborative');
+                        $(nRow).addClass( 'collaborative' );
+                        break;
+                    }
+                }
+           } );
+    } );
 </script>
 }

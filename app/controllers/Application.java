@@ -56,6 +56,12 @@ public class Application extends Controller {
                 }
             }else{
                 Logger.info("Track for playlist " + playlist.getName() +" cannot be fetched since it's collaborative.");
+                JSONArray playListArray = new JSONArray();
+                playListArray.add("collaborative-list456");
+                playListArray.add("");
+                playListArray.add("");
+                playListArray.add(playlist.getName());
+                mainArray.add(playListArray);
             }
         }
         JSONObject data = new JSONObject();
