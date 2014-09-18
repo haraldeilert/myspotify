@@ -6,6 +6,9 @@ GET        /                              controllers.Application.index()
 
 GET        /callback                      controllers.Application.callback(code)
 GET        /getPlayList                   controllers.Application.getPlayList(accessToken)
+GET        /search                        controllers.Application.search()
+GET        /artistInfo                    controllers.Application.artistInfo(artistId)
+GET        /searchArtists                 controllers.Application.searchArtists(query)
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                  controllers.Assets.at(path="/public", file)

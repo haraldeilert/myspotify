@@ -2,8 +2,7 @@ package controllers;
 
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.exceptions.WebApiException;
-import com.wrapper.spotify.methods.PlaylistTracksRequest;
-import com.wrapper.spotify.methods.UserPlaylistsRequest;
+import com.wrapper.spotify.methods.*;
 import com.wrapper.spotify.models.*;
 import play.Logger;
 
@@ -16,8 +15,8 @@ public class SpotifyWebApi {
     /* Application details necessary to get an access token */
     private static final String clientId = "49d41b67c05f4be1980721d19f86ecb2";
     private static final String clientSecret = "7d642cbd53794d58b8b5c93856c2d0d2";
-    private static final String redirectUri = "http://myspotify.herokuapp.com/callback";
-    //private static final String redirectUri = "http://localhost:9000/callback";
+    //private static final String redirectUri = "http://myspotify.herokuapp.com/callback";
+    private static final String redirectUri = "http://localhost:9000/callback";
 
     /* Create a default API instance that will be used to make requests to Spotify */
     private static Api api = Api.builder().clientId(clientId).clientSecret(clientSecret).redirectURI(redirectUri).build();
@@ -63,7 +62,7 @@ public class SpotifyWebApi {
 
     /**
      * Get all playlists owned by a Spotify user.
-     *
+     * <p>
      * Note: only non-collaborative playlists are currently returned by the Web API.
      *
      * @param userId
@@ -104,5 +103,48 @@ public class SpotifyWebApi {
         /* Set a state. This is used to prevent cross site request forgeries. */
         String state = "prod";
         return api.createAuthorizeURL(scopes, state);
+    }
+
+    public static String getTopTracks(String artistId, String countryCode) {
+        TopTracksRequest topTracksRequest = api.getTopTracksForArtist(artistId, countryCode).build();
+
+        try {
+           return topTracksRequest.getJson();
+        } catch (Exception e) {
+            Logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    public static String getArtistRelatedArtists(String artistId) {
+        RelatedArtistsRequest relatedArtistsRequest = api.getArtistRelatedArtists(artistId).build();
+
+        try {
+            return relatedArtistsRequest.getJson();
+        } catch (Exception e) {
+            Logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    public static String getArtist(String artist) {
+        Logger.debug("***Get artist: " + artist);
+        ArtistRequest artistRequest = api.getArtist(artist).build();
+        try {
+            return artistRequest.getJson();
+        } catch (Exception e) {
+            Logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    public static Page<Artist> searchArtists(String query) {
+        ArtistSearchRequest artistSearchRequest = api.searchArtists(query).build();
+        try {
+            return artistSearchRequest.get();
+        } catch (Exception e) {
+            Logger.error(e.getMessage());
+        }
+        return null;
     }
 }

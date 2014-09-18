@@ -1,0 +1,37 @@
+@main2("Search for artists") {
+
+<input id="typeAheadArtist" class="typeahead"></input>
+
+<div id="artistWrapper"></div>
+
+<script>
+   var artists = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: 'searchArtists?query=%QUERY'
+    });
+
+    artists.initialize();
+
+    $('.typeahead').typeahead(
+        null, {
+        name: 'artists',
+        displayKey: 'name',
+        source: artists.ttAdapter()
+    }).on('typeahead:selected', function(event, data){
+        console.log(data.id);
+        $.getJSON( "artistInfo?artistId="+data.id, function(data) {
+            var template = $('#artistTemplate').html();
+            var html = Mustache.to_html(template, data);
+
+            $('#artistWrapper').html(html);
+        }).done(function() {
+            console.log( "second success" );
+        }).fail(function() {
+            console.log( "error" );
+        }).always(function() {
+            console.log( "complete" );
+        });
+    });
+</script>
+}
