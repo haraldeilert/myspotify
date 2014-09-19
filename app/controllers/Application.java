@@ -49,6 +49,8 @@ public class Application extends Controller {
         for(Track track : artistsTracksList){
             JSONObject jsonObjectTrack = new JSONObject();
             jsonObjectTrack.put("track", track.getName());
+            jsonObjectTrack.put("spotifyurl", track.getExternalUrls().get("spotify"));
+
             jsonArrayTracks.add(jsonObjectTrack);
         }
         jsonToReturn.put("tracks", jsonArrayTracks);
