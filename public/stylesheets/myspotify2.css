@@ -1,6 +1,4 @@
-.collaborative {
-    background-color: #FF3333 !important;
-}
+
 
  @font-face {
         font-family:"Prociono";
@@ -67,11 +65,12 @@
         color: #999999;
         }
         .tt-dropdown-menu {
+        color: #333333;
         background-color: #FFFFFF;
         border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 8px 8px 8px 8px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        margin-top: 12px;
+        margin-top: 5px;
         padding: 8px 0;
         width: 422px;
         }

@@ -105,33 +105,33 @@ public class SpotifyWebApi {
         return api.createAuthorizeURL(scopes, state);
     }
 
-    public static String getTopTracks(String artistId, String countryCode) {
+    public static List<Track> getTopTracks(String artistId, String countryCode){
         TopTracksRequest topTracksRequest = api.getTopTracksForArtist(artistId, countryCode).build();
 
         try {
-           return topTracksRequest.getJson();
+            return topTracksRequest.get();
         } catch (Exception e) {
             Logger.error(e.getMessage());
         }
         return null;
     }
 
-    public static String getArtistRelatedArtists(String artistId) {
+    public static List<Artist> getArtistRelatedArtists(String artistId){
         RelatedArtistsRequest relatedArtistsRequest = api.getArtistRelatedArtists(artistId).build();
 
         try {
-            return relatedArtistsRequest.getJson();
+            return relatedArtistsRequest.get();
         } catch (Exception e) {
             Logger.error(e.getMessage());
         }
         return null;
     }
 
-    public static String getArtist(String artist) {
+    public static Artist getArtist(String artist) {
         Logger.debug("***Get artist: " + artist);
         ArtistRequest artistRequest = api.getArtist(artist).build();
         try {
-            return artistRequest.getJson();
+            return artistRequest.get();
         } catch (Exception e) {
             Logger.error(e.getMessage());
         }

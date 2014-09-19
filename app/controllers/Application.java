@@ -30,16 +30,39 @@ public class Application extends Controller {
 
     public static Result artistInfo(String artistId) {
 
-        String artistJson = SpotifyWebApi.getArtist(artistId);
-        //String relatedArtistJson = SpotifyWebApi.getArtistRelatedArtists(artistId);
-        String artistsTracksJson = SpotifyWebApi.getTopTracks(artistId, "SE");
+        Artist artistJson = SpotifyWebApi.getArtist(artistId);
+        List<Artist> relatedArtistList = SpotifyWebApi.getArtistRelatedArtists(artistId);
+        List<Track> artistsTracksList = SpotifyWebApi.getTopTracks(artistId, "SE");
 
-        JSONArray main = new JSONArray();
-        main.add(artistJson);
-       // main.add(relatedArtistJson);
-        //main.add(artistsTracksJson);
-        Logger.debug("*****test: " + artistJson);
-        return ok(artistJson);
+        JSONObject jsonToReturn = new JSONObject();
+        List<Image> imagesList = artistJson.getImages();
+        for(Image image : imagesList){//Choose an image not larger than 100
+            if(image.getHeight() < 400){
+                jsonToReturn.put("url", image.getUrl());
+                jsonToReturn.put("height", image.getHeight());
+                jsonToReturn.put("width", image.getWidth());
+                break;
+            }
+        }
+
+        JSONArray jsonArrayTracks = new JSONArray();
+        for(Track track : artistsTracksList){
+            JSONObject jsonObjectTrack = new JSONObject();
+            jsonObjectTrack.put("track", track.getName());
+            jsonArrayTracks.add(jsonObjectTrack);
+        }
+        jsonToReturn.put("tracks", jsonArrayTracks);
+
+        JSONArray jsonArrayRelatedArtists = new JSONArray();
+        for(Artist artist : relatedArtistList){
+            JSONObject jsonObjectArtist = new JSONObject();
+            jsonObjectArtist.put("artist", artist.getName());
+            jsonArrayRelatedArtists.add(jsonObjectArtist);
+        }
+        jsonToReturn.put("relatedartists", jsonArrayRelatedArtists);
+
+        Logger.debug(jsonToReturn.toJSONString());
+        return ok(jsonToReturn.toJSONString());
     }
 
     public static Result searchArtists(String query) {
