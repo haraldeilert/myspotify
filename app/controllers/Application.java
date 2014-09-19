@@ -57,6 +57,7 @@ public class Application extends Controller {
         for(Artist artist : relatedArtistList){
             JSONObject jsonObjectArtist = new JSONObject();
             jsonObjectArtist.put("artist", artist.getName());
+            jsonObjectArtist.put("id", artist.getId());
             jsonArrayRelatedArtists.add(jsonObjectArtist);
         }
         jsonToReturn.put("relatedartists", jsonArrayRelatedArtists);

@@ -12,7 +12,7 @@
 ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input{margin:0; padding:0;}
 
 /* HTML ELEMENTS */
-body { background: #1d1d1d; color: #fff; background-image:url("../images/bg.png"); background-repeat:repeat-x; }
+body { background: #1d1d1d; color: #fff; }
 h1 { font: bold 65px/60px Helvetica, Arial, Sans-serif; text-align: left; color: #eee; text-shadow: 0px 2px 6px #333; }
 h1 small{ font-size: 20px; text-transform:uppercase; letter-spacing: 14px; display: block; color: #ccc; }
 h2 a { display: block; text-decoration: none; margin: 0 0 30px 0; font: italic 45px Georgia, Times, Serif;  text-align: center; color: #bfe1f1; text-shadow: 0px 2px 6px #333; }
@@ -21,7 +21,7 @@ h3 { font-style:italic; border-left:10px solid #eee; padding:10px 20px; margin:3
 h3 code { display:block; }
 
 /* WRAPPER */
-#wrapper { width:800px; margin:20px auto; }
+#wrapper { width:100%; }
 
 /* LIST #1 */
 #list1 { }

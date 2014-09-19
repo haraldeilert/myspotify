@@ -2,54 +2,77 @@
 <html>
 <head>
     <title>Search Artist</title>
+
     <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/myspotify2.css")">
     <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/style.css")">
-
     <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/typeahead.js/dist/typeahead.bundle.js")'></script>
 
-    <script id="artistTemplate" type="text/template">
-        <br>
+    <style>
+        .artistDiv {
+        display: inline-block;
+        position: relative;
+        vertical-align:top;
+        width: auto;
+        height: auto;
+        }
+        .trackDiv {
+        display: inline-block;
+        position: relative;
+        vertical-align:top;
+        width: auto;
+        height: auto;
+        }
 
-        <div id="container">
-            <div id="left">
-                <img height="{{height}}" width="{{width}}" src="{{url}}">
-            </div>
-            <div id="right">
-                <h2>Related artists</h2><br>
-                <div id="list2">
-                    <ol>
-                        {{#relatedartists}}
-                        <li><p>{{artist}}</p></li>
-                        {{/relatedartists}}
-                    </ol>
-                </div>
-            </div>
-            <div id="center">
-                <h2>Top tracks</h2><br>
-                <div id="list2">
-                    <ol>
-                        {{#tracks}}
-                        <li><p>{{track}}</p></li>
-                        {{/tracks}}
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </script>
-    <style type="text/css">
-        #container{width:100%;}
-        #left{float:left;}
-        #right{float:right;width:300px;}
-        #center{margin:20 auto;width:300px;}
 
     </style>
+
+    <script id="artistTemplate" type="text/template">
+
+        <div class="containerTest">
+            <!-- Example row of columns -->
+            <div class="rowTest">
+                <div style="width: {{width}};display: inline-block;position: relative;left: 0;vertical-align:top;margin-right: 50px">
+                    <img height="{{height}}" width="{{width}}" src="{{url}}">
+                </div>
+                <div class="trackDiv">
+                    <h2>Top tracks</h2><br>
+                    <div id="list2">
+                        <ol>
+                            {{#tracks}}
+                            <li><p><em>{{track}}</em></p></li>
+                            {{/tracks}}
+                        </ol>
+                    </div>
+                </div>
+                <div class="artistDiv">
+                    <h2>Related artists</h2><br>
+                    <div id="list2">
+                        <ol>
+                            {{#relatedartists}}
+                            <li><p><em><a onclick="javascript:populateArtistData('{{id}}', '{{artist}}')" href="#">{{artist}}</a></em></p></li>
+                            {{/relatedartists}}
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- /container -->
+
+
+    </script>
 </head>
 <body>
+<br>
     <div id="wrapper">
-        <input id="typeAheadArtist" class="typeahead"></input>
+        <div style="width: 80%; margin: 0 auto;">
+         <input id="typeAheadArtist" class="typeahead"></input>
+<br>
+        <br>
         <div id="artistWrapper"></div>
+
+        </div>
     </div>
 
 
@@ -69,11 +92,15 @@
         source: artists.ttAdapter()
     }).on('typeahead:selected', function(event, data){
         console.log(data.id);
-        $.getJSON( "artistInfo?artistId="+data.id, function(data) {
+        populateArtistData(data.id, data.name)
+    });
+
+    function populateArtistData(id, artist){
+      $.getJSON( "artistInfo?artistId="+id, function(data) {
             var template = $('#artistTemplate').html();
             var html = Mustache.to_html(template, data);
-
             $('#artistWrapper').html(html);
+             $('#typeAheadArtist').val(artist);
         }).done(function() {
             console.log( "second success" );
         }).fail(function() {
@@ -81,7 +108,7 @@
         }).always(function() {
             console.log( "complete" );
         });
-    });
+    }
 </script>
 </body>
 </html>

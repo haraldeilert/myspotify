@@ -113,3 +113,8 @@
         .example-arabic .tt-dropdown-menu {
         text-align: right;
         }
+
+        a {
+          color:#EEEEEE;
+          text-decoration:none;
+        }
