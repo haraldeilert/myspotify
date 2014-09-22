@@ -8,7 +8,5 @@ test/coverage
 node_modules
 npm-debug.log
 
-bower_components
-
 *.iml
 .idea
