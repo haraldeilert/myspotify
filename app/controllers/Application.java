@@ -1,7 +1,6 @@
 package controllers;
 
 import com.wrapper.spotify.models.*;
-import models.ArtistWrapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import play.Logger;
@@ -23,21 +22,20 @@ public class Application extends Controller {
         String accessToken = SpotifyWebApi.getAccessToken(code);
         return ok(views.html.playlists.render(accessToken));
     }
-
+    @SuppressWarnings("unchecked")
     public static Result search() {
         return ok(views.html.searchartist.render());
     }
 
     public static Result artistInfo(String artistId) {
-
-        Artist artistJson = SpotifyWebApi.getArtist(artistId);
-        List<Artist> relatedArtistList = SpotifyWebApi.getArtistRelatedArtists(artistId);
-        List<Track> artistsTracksList = SpotifyWebApi.getTopTracks(artistId, "SE");
-
+        //Main Json Object
         JSONObject jsonToReturn = new JSONObject();
+
+        //ARTIST INFO
+        Artist artistJson = SpotifyWebApi.getArtist(artistId);
         List<Image> imagesList = artistJson.getImages();
-        for(Image image : imagesList){//Choose an image not larger than 100
-            if(image.getHeight() < 400){
+        for (Image image : imagesList) {//Choose an image not larger than 100
+            if (image.getHeight() < 400) {
                 jsonToReturn.put("url", image.getUrl());
                 jsonToReturn.put("height", image.getHeight());
                 jsonToReturn.put("width", image.getWidth());
@@ -45,8 +43,10 @@ public class Application extends Controller {
             }
         }
 
+        //TRACK INFO
         JSONArray jsonArrayTracks = new JSONArray();
-        for(Track track : artistsTracksList){
+        List<Track> artistsTracksList = SpotifyWebApi.getTopTracks(artistId, "SE");
+        for (Track track : artistsTracksList) {
             JSONObject jsonObjectTrack = new JSONObject();
             jsonObjectTrack.put("track", track.getName());
             jsonObjectTrack.put("spotifyurl", track.getExternalUrls().get("spotify"));
@@ -55,14 +55,26 @@ public class Application extends Controller {
         }
         jsonToReturn.put("tracks", jsonArrayTracks);
 
+        //RELATED ARTIST INFO
         JSONArray jsonArrayRelatedArtists = new JSONArray();
-        for(Artist artist : relatedArtistList){
+        List<Artist> relatedArtistList = SpotifyWebApi.getArtistRelatedArtists(artistId);
+        for (Artist artist : relatedArtistList) {
             JSONObject jsonObjectArtist = new JSONObject();
             jsonObjectArtist.put("artist", artist.getName());
             jsonObjectArtist.put("id", artist.getId());
             jsonArrayRelatedArtists.add(jsonObjectArtist);
         }
         jsonToReturn.put("relatedartists", jsonArrayRelatedArtists);
+
+        //ALBUM INFO
+        JSONArray jsonArrayAlbums = new JSONArray();
+        Page<SimpleAlbum> artistsAlbum = SpotifyWebApi.getAlbumsForArtist(artistId);
+        for (SimpleAlbum simpleAlbum : artistsAlbum.getItems()) {
+            JSONObject jsonObjectAlbum = new JSONObject();
+            jsonObjectAlbum.put("album", simpleAlbum.getName());
+            jsonArrayAlbums.add(jsonObjectAlbum);
+        }
+        jsonToReturn.put("albums", jsonArrayAlbums);
 
         Logger.debug(jsonToReturn.toJSONString());
         return ok(jsonToReturn.toJSONString());
