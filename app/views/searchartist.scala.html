@@ -9,34 +9,6 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/typeahead.bundle.js")'></script>
 
-    <style>
-        .imageDiv{
-            margin-top: 20px;
-            margin-left: 10px;
-        }
-        .artistDiv {
-            display: inline-block;
-            position: relative;
-            vertical-align:top;
-            width: auto;
-            height: auto;
-        }
-        .trackDiv {
-            display: inline-block;
-            position: relative;
-            vertical-align:top;
-            width: auto;
-            height: auto;
-        }
-        .albumDiv {
-            display: inline-block;
-            position: relative;
-            vertical-align:top;
-            width: auto;
-            height: auto;
-        }
-    </style>
-
     <!-- ****************************** MUSTACHE TEMPLATE START ****************************** -->
     <script id="artistTemplate" type="text/template">
         <div class="containerTest">
@@ -56,7 +28,6 @@
                         </ol>
                     </div>
                 </div>
-
                 <div class="albumDiv">
                     <h2>Albums</h2>
                     <div class="borderStyle">&nbsp;</div>
@@ -68,7 +39,6 @@
                         </ol>
                     </div>
                 </div>
-
                 <div class="artistDiv">
                     <h2>Related artists</h2>
                     <div class="borderStyle">&nbsp;</div>
@@ -84,19 +54,23 @@
         </div>
     </script>
     <!-- ****************************** MUSTACHE TEMPLATE END ****************************** -->
-</head>
-<body>
-<br>
-    <div id="wrapper">
-        <div style="width: 100%; margin: 0 auto; padding-left: 20px;">
-            <input placeholder="search artist here.." id="typeAheadArtist" class="typeahead"></input>
-            <br>
-            <div id="artistWrapper">
 
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript">
+    <script type="text/javascript" charset="utf-8">
+
+    $(function() {
+            var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket
+            var sock = new WS("@routes.Application.sockHandler().webSocketURL(request)")
+
+            sock.onmessage = function(event) {
+                $('.greeting').append(event.data)
+            }
+
+            $('button.send').click(function() {
+                sock.send("I'm sending a message now.")
+            });
+        })
+
+
    var artists = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -129,6 +103,18 @@
             console.log( "complete" );
         });
     }
-</script>
+    </script>
+</head>
+<body>
+<br>
+    <div id="wrapper">
+        <div style="width: 100%; margin: 0 auto; padding-left: 20px;">
+            <input placeholder="search artist here.." id="typeAheadArtist" class="typeahead"></input> <div class="greeting"></div>
+
+            <button class="send">Send</button>
+            <br>
+            <div id="artistWrapper"></div>
+        </div>
+    </div>
 </body>
 </html>

@@ -128,3 +128,28 @@
             border-left-style:solid;
             border-left-width:1px;
         }
+         .imageDiv{
+                    margin-top: 20px;
+                    margin-left: 10px;
+                }
+                .artistDiv {
+                    display: inline-block;
+                    position: relative;
+                    vertical-align:top;
+                    width: auto;
+                    height: auto;
+                }
+                .trackDiv {
+                    display: inline-block;
+                    position: relative;
+                    vertical-align:top;
+                    width: auto;
+                    height: auto;
+                }
+                .albumDiv {
+                    display: inline-block;
+                    position: relative;
+                    vertical-align:top;
+                    width: auto;
+                    height: auto;
+                }
