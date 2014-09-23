@@ -150,11 +150,10 @@ public class Application extends Controller {
                 in.onMessage(new F.Callback<String>() {
                     public void invoke(String event) {
                        Logger.info("teset");
+                       out.write("asdf");
                     }
-                    // write out a greeting
-
                 });
-                out.write("I'm contacting you regarding your recent websocket.");
+
             }
         };
     }
