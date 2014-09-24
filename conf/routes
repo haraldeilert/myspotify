@@ -4,6 +4,7 @@
 
 GET        /                              controllers.Application.index()
 
+GET        /wsInterface                   controllers.Application.wsInterface()
 GET        /callback                      controllers.Application.callback(code)
 GET        /getPlayList                   controllers.Application.getPlayList(accessToken)
 GET        /search                        controllers.Application.search()
