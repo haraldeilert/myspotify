@@ -1,6 +1,7 @@
 package models;
 
 import akka.actor.UntypedActor;
+import play.Logger;
 import play.libs.F;
 import play.mvc.WebSocket;
 
@@ -16,6 +17,7 @@ public class SearchActor extends UntypedActor {
 
     public static void start(WebSocket.In<String> in, WebSocket.Out<String> out) {
 
+        Logger.debug("Add connection");
         connections.add(out);
 
         in.onMessage(new F.Callback<String>() {
@@ -26,7 +28,7 @@ public class SearchActor extends UntypedActor {
 
         in.onClose(new F.Callback0() {
             public void invoke() {
-                SearchActor.notifyAll("A connection closed");
+                Logger.debug("Connection closed");
             }
         });
     }
@@ -40,6 +42,6 @@ public class SearchActor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-
+        Logger.debug("onReceive" + message.toString());
     }
 }

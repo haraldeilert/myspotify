@@ -78,12 +78,7 @@
 
        if(event.data != $('#typeAheadArtist').val()){
          $('#txtInfo').html("Någon annan söker just nu på:<i> " + event.data + "</i>");
-         $( "#txtInfo" ).fadeIn( "slow", function() {
-             $( "#txtInfo" ).fadeOut(4000, function() {
-
-         });
-         });
-
+         $( "#txtInfo" ).fadeIn( "slow", function() { $( "#txtInfo" ).fadeOut(4000, function() {}); });
          }
     }
 
