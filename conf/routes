@@ -4,8 +4,6 @@
 
 GET        /                              controllers.Application.index()
 
-GET         /greeter                      controllers.Application.sockHandler()
-
 GET        /callback                      controllers.Application.callback(code)
 GET        /getPlayList                   controllers.Application.getPlayList(accessToken)
 GET        /search                        controllers.Application.search()
