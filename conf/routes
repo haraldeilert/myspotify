@@ -7,7 +7,7 @@ GET        /                              controllers.Application.index()
 GET        /wsInterface                   controllers.Application.wsInterface()
 GET        /callback                      controllers.Application.callback(code)
 GET        /getPlayList                   controllers.Application.getPlayList(accessToken)
-GET        /search                        controllers.Application.search()
+GET        /myplaylist                    controllers.Application.personalPlaylist()
 GET        /artistInfo                    controllers.Application.artistInfo(artistId)
 GET        /searchArtists                 controllers.Application.searchArtists(query)
 

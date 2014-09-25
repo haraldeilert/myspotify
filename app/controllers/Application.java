@@ -1,29 +1,21 @@
 package controllers;
 
-import akka.actor.ActorRef;
-import akka.actor.Cancellable;
-import akka.actor.Props;
 import com.wrapper.spotify.models.*;
 import models.SearchActor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import play.Logger;
-import play.libs.Akka;
-import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.WebSocket;
-import scala.concurrent.duration.Duration;
 
 import java.util.List;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class Application extends Controller {
 
     public static final String DATA = "data";
 
-    public static Result index() {
+    public static Result personalPlaylist() {
         String url = SpotifyWebApi.getAuthorizeURL();
         return redirect(url);
     }
@@ -34,7 +26,7 @@ public class Application extends Controller {
     }
 
     @SuppressWarnings("unchecked")
-    public static Result search() {
+    public static Result index() {
         return ok(views.html.searchartist.render());
     }
 
@@ -151,11 +143,11 @@ public class Application extends Controller {
     }
 
     // Websocket interface
-    public static WebSocket<String> wsInterface(){
-        return new WebSocket<String>(){
+    public static WebSocket<String> wsInterface() {
+        return new WebSocket<String>() {
 
             // called when websocket handshake is done
-            public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out){
+            public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out) {
                 SearchActor.start(in, out);
             }
         };
