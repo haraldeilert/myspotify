@@ -2,7 +2,6 @@ package models;
 
 import akka.actor.UntypedActor;
 import play.Logger;
-import play.libs.F;
 import play.mvc.WebSocket;
 
 import java.util.ArrayList;
