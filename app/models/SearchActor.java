@@ -47,7 +47,7 @@ public class SearchActor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-
+        Logger.debug("Robot making a search");
         //Randomize the robot search or hide it..
         Random randomizer = new Random();
         String random = robotList.get(randomizer.nextInt(robotList.size()));
@@ -55,8 +55,7 @@ public class SearchActor extends UntypedActor {
         notifyAll(random);
     }
 
-    public static class Talk {
-        public Talk() {
-        }
+    public static class RobotActor {
+        public RobotActor() {}
     }
 }
