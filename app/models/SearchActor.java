@@ -11,7 +11,6 @@ import java.util.List;
  * Created by Harald on 2014-09-23.
  */
 public class SearchActor extends UntypedActor {
-    // collect all websockets here
     private static List<WebSocket.Out<String>> connections = new ArrayList<WebSocket.Out<String>>();
 
     public static void start(WebSocket.In<String> in, WebSocket.Out<String> out) {
