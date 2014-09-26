@@ -8,12 +8,17 @@ import play.libs.Akka;
 import play.mvc.WebSocket;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Harald on 2014-09-23.
  */
 public class SearchActor extends UntypedActor {
+
+    //To keep the websocket alive we have a robot that is pretending to search with this strings
+    private static final List<String> robotList = new ArrayList<String>(Arrays.asList("Kendrick Lamar", "Big L", "Schoolboy Q", "Mos def", "EPMD", "Nas", "Jay-Rock"));
 
     // Default room.
     static ActorRef defaultActor = Akka.system().actorOf(Props.create(SearchActor.class));
@@ -42,10 +47,16 @@ public class SearchActor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        notifyAll("Lady gaga");
+
+        //Randomize the robot search or hide it..
+        Random randomizer = new Random();
+        String random = robotList.get(randomizer.nextInt(robotList.size()));
+
+        notifyAll(random);
     }
 
     public static class Talk {
-        public Talk() {}
+        public Talk() {
+        }
     }
 }
