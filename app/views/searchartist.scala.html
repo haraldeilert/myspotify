@@ -69,8 +69,8 @@
 </head>
 <body>
     <div id="wrapper">
-        <div style="margin: 0 auto; padding-left: 20px; padding-top: 10px;">
-           <input placeholder="search artist here.." id="typeAheadArtist" class="typeahead"></input><div id='basic-modal' style="padding: 14px; border: 1px solid #999999; float: right; font-style: italic;"><a href="myplaylist">Playlists</a>&nbsp;&nbsp;<a href="#" class="basic">About</a></div>
+        <div style="margin: 0 auto; padding-left: 20px; padding-top: 20px;">
+            <input placeholder="search artist here.." id="typeAheadArtist" class="typeahead"></input>
             <div id="artistWrapper"></div>
         </div>
     </div>
@@ -144,7 +144,7 @@
         <!-- modal content -->
         <div id="basic-modal-content">
             <h3>About</h3>
-            <p>This application is using <a href="">Spotify Web Api</a>, <a target="_blank" href="https://developer.spotify.com/web-api/">Play 2.3</a>, <a target="_blank" href="http://www.oracle.com/technetwork/java/index.html">Java 8</a>, <a target="_blank" href="https://twitter.github.io/typeahead.js/">Twitter typeahead</a>, <a target="_blank" href="https://www.heroku.com/">Heroku</a>, <a target="_blank" href="http://www.datatables.net/">Datatables</a> och <a target="_blank"href="http://www.html5rocks.com/en/tutorials/websockets/basics/">websockets</a>.
+            <p>This application is using <a href="https://developer.spotify.com/web-api/">Spotify Web Api</a>, <a target="_blank" href="https://playframework.com/">Play 2.3</a>, <a target="_blank" href="http://www.oracle.com/technetwork/java/index.html">Java 8</a>, <a target="_blank" href="https://twitter.github.io/typeahead.js/">Twitter typeahead</a>, <a target="_blank" href="https://www.heroku.com/">Heroku</a>, <a target="_blank" href="http://www.datatables.net/">Datatables</a> och <a target="_blank"href="http://www.html5rocks.com/en/tutorials/websockets/basics/">websockets</a>.
               <br><br>
                <p>My purpose was to try new technologies especially focusing on being productive. I think Play is an awesome framework that really makes the creation of web application super efficient and fun</p>
 
@@ -155,5 +155,15 @@
             <img src='@routes.Assets.at("images/x.png")' alt='' />
         </div>
 
+    <div id='basic-modal' style="position: fixed; right: 230px; top: 85px; padding: 12px; border: 1px solid #999999; font-style: italic;"><a href="myplaylist">Playlists</a>&nbsp;&nbsp;<a href="#" class="basic">About</a></div>
+    <div style="border: 0px; position: fixed; right: 120px; top: 20px;">
+        <img style="padding-right: 10px;" src='@routes.Assets.at("images/heroku.jpg")'>
+        <img style="padding-right: 10px;" src='@routes.Assets.at("images/spotify.png")'>
+        <img style="padding-right: 10px;" src='@routes.Assets.at("images/play.png")'>
+        <img style="padding-right: 10px;" src='@routes.Assets.at("images/twitter.png")'>
+    </div>
+    <a href="http://www.reactivemanifesto.org/">
+        <img style="border: 0px; position: fixed; right: 0px; top: 0px; z-index: 9000;" src="http://d379ifj7s9wntv.cloudfront.net/reactivemanifesto/images/ribbons/we-are-reactive-black-right.png"/>
+    </a>
 </body>
 </html>
