@@ -70,7 +70,7 @@
 <body>
     <div id="wrapper">
         <div style="margin: 0 auto; padding-left: 5px; padding-top: 5px;">
-            <span id="basic-modal" style="display:block; padding-bottom: 10px; border-bottom: 1px solid #999999; font-style: italic;"><a href="#" class="basic">About</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="myplaylist">Playlists</a>
+            <span style="display:block; padding-bottom: 10px; border-bottom: 1px solid #999999;">
                 <input placeholder="search artist here.." id="typeAheadArtist" class="typeahead"></input>
             </span>
             <div id="artistWrapper"></div>
@@ -156,6 +156,10 @@
         <div style='display:none'>
             <img src='@routes.Assets.at("images/x.png")' alt='' />
         </div>
+
+    <div id="basic-modal" style="border: 0px; position: fixed; left: 340px; top: 37px;">
+        <a href="#" class="basic">About</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="myplaylist">Playlists</a>
+    </div>
 
     <div style="border: 0px; position: fixed; right: 120px; top: 20px;">
         <img style="padding-right: 10px;" src='@routes.Assets.at("images/heroku.jpg")'>
