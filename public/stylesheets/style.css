@@ -20,9 +20,6 @@ h2 a:hover { color: #90bcd0; }
 h3 { font-style:italic; border-left:10px solid #eee; padding:10px 20px; margin:30px 0; color:#eee; }
 h3 code { display:block; }
 
-/* WRAPPER */
-#wrapper { width:1300px; }
-
 /* LIST #1 */
 #list1 { }
 #list1 ul { list-style:none; text-align:center; border-top:1px solid #eee; border-bottom:1px solid #eee; padding:10px 0; }
