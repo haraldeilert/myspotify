@@ -77,8 +77,43 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-function loading(){
+
+
+        <!-- modal content -->
+        <div id="basic-modal-content">
+            <h3>About</h3>
+            <p>This application is using <a href="https://developer.spotify.com/web-api/">Spotify Web Api</a>, <a target="_blank" href="https://playframework.com/">Play 2.3</a>, <a target="_blank" href="http://www.oracle.com/technetwork/java/index.html">Java 8</a>, <a target="_blank" href="https://twitter.github.io/typeahead.js/">Twitter typeahead</a>, <a target="_blank" href="https://www.heroku.com/">Heroku</a>, <a target="_blank" href="http://www.datatables.net/">Datatables</a> and <a target="_blank"href="http://www.html5rocks.com/en/tutorials/websockets/basics/">websockets</a>.
+              <br><br>
+               <p>More to come...</p>
+
+        </div>
+
+        <!-- preload the images -->
+        <div style='display:none'>
+            <img src='@routes.Assets.at("images/x.png")' alt='' />
+        </div>
+
+    <div id="basic-modal" style="border: 0px; position: fixed; left: 340px; top: 37px;">
+        <a href="#" class="basic">About</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="myplaylist">Playlists</a>
+    </div>
+
+    <div style="border: 0px; position: fixed; right: 120px; top: 20px;">
+        <img style="padding-right: 10px;" src='@routes.Assets.at("images/heroku.jpg")'>
+        <img style="padding-right: 10px;" src='@routes.Assets.at("images/spotify.png")'>
+        <img style="padding-right: 10px;" src='@routes.Assets.at("images/play.png")'>
+        <img style="padding-right: 10px;" src='@routes.Assets.at("images/twitter.png")'>
+    </div>
+    <a href="http://www.reactivemanifesto.org/">
+        <img style="border: 0px; position: fixed; right: 0px; top: 0px; z-index: 9000;" src="http://d379ifj7s9wntv.cloudfront.net/reactivemanifesto/images/ribbons/we-are-reactive-black-right.png"/>
+    </a>
+
+    <div id="spinner" class="spinner" style="display:none;">
+        <img id="img-spinner" src='@routes.Assets.at("images/spinner.gif")' alt="Loading"/>
+    </div>
+
+
+<script type="text/javascript">
+    function loading(){
     	var docHeight = $(document).height();
 
        	$("body").append("<div id='overlay'></div>");
@@ -169,37 +204,5 @@ function loading(){
     }
 
 </script>
-
-        <!-- modal content -->
-        <div id="basic-modal-content">
-            <h3>About</h3>
-            <p>This application is using <a href="https://developer.spotify.com/web-api/">Spotify Web Api</a>, <a target="_blank" href="https://playframework.com/">Play 2.3</a>, <a target="_blank" href="http://www.oracle.com/technetwork/java/index.html">Java 8</a>, <a target="_blank" href="https://twitter.github.io/typeahead.js/">Twitter typeahead</a>, <a target="_blank" href="https://www.heroku.com/">Heroku</a>, <a target="_blank" href="http://www.datatables.net/">Datatables</a> and <a target="_blank"href="http://www.html5rocks.com/en/tutorials/websockets/basics/">websockets</a>.
-              <br><br>
-               <p>More to come...</p>
-
-        </div>
-
-        <!-- preload the images -->
-        <div style='display:none'>
-            <img src='@routes.Assets.at("images/x.png")' alt='' />
-        </div>
-
-    <div id="basic-modal" style="border: 0px; position: fixed; left: 340px; top: 37px;">
-        <a href="#" class="basic">About</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="myplaylist">Playlists</a>
-    </div>
-
-    <div style="border: 0px; position: fixed; right: 120px; top: 20px;">
-        <img style="padding-right: 10px;" src='@routes.Assets.at("images/heroku.jpg")'>
-        <img style="padding-right: 10px;" src='@routes.Assets.at("images/spotify.png")'>
-        <img style="padding-right: 10px;" src='@routes.Assets.at("images/play.png")'>
-        <img style="padding-right: 10px;" src='@routes.Assets.at("images/twitter.png")'>
-    </div>
-    <a href="http://www.reactivemanifesto.org/">
-        <img style="border: 0px; position: fixed; right: 0px; top: 0px; z-index: 9000;" src="http://d379ifj7s9wntv.cloudfront.net/reactivemanifesto/images/ribbons/we-are-reactive-black-right.png"/>
-    </a>
-
-    <div id="spinner" class="spinner" style="display:none;">
-        <img id="img-spinner" src='@routes.Assets.at("images/spinner.gif")' alt="Loading"/>
-    </div>
 </body>
 </html>
