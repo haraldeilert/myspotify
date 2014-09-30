@@ -23,11 +23,11 @@
 
     <!-- ****************************** MUSTACHE TEMPLATE START ****************************** -->
     <script id="artistTemplate" type="text/template">
-        <div style="width: 1350px">
+        <div style="margin-left: 20px; margin-top: 20px;">
             <!-- Example row of columns -->
-            <div class="imageDiv">
-                <div style="width: {{width}};display: inline-block;position: relative;left: 0;vertical-align:top;margin-right: 50px">
-                    <img height="{{height}}" width="{{width}}" src="{{url}}">
+
+                <div style="display: inline-block;position: relative;left: 0; vertical-align:top;margin-right: 50px;">
+                    <img style="border: solid 1px white;" height="{{height}}" width="{{width}}" src="{{url}}">
                 </div>
                 <div class="trackDiv">
                     <h2>Top tracks</h2>
@@ -57,7 +57,7 @@
                     <div id="list2">
                         <ol>
                             {{#relatedartists}}
-                            <li><p><em><a onclick="javascript:populateArtistData('{{id}}', '{{artist}}')" href="#">{{artist}}</a></em></p></li>
+                            <li><p><em><a onclick="javascript:loading();populateArtistData('{{id}}', '{{artist}}')" href="#">{{artist}}</a></em></p></li>
                             {{/relatedartists}}
                         </ol>
                     </div>
@@ -78,6 +78,30 @@
     </div>
 
     <script type="text/javascript">
+function loading(){
+    	var docHeight = $(document).height();
+
+       	$("body").append("<div id='overlay'></div>");
+
+       	$("#overlay")
+          .height(docHeight)
+          .css({
+             'opacity' : 0.4,
+             'position': 'absolute',
+             'top': 0,
+             'left': 0,
+             'background-color': 'black',
+             'width': '100%',
+             'z-index': 5000
+          });
+       	$("#spinner").show();
+    }
+
+    function doneLoading(){
+    	$("#spinner").hide();
+		$("#overlay").remove();
+    }
+
     // get websocket class, firefox has a different way to get it
     var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
 
@@ -121,6 +145,7 @@
         displayKey: 'name',
         source: artists.ttAdapter()
     }).on('typeahead:selected', function(event, data){
+        loading();
         console.log(data.id);
         populateArtistData(data.id, data.name)
     });
@@ -136,8 +161,10 @@
             console.log( "second success" );
         }).fail(function() {
             console.log( "error" );
+            alert("Couldn't retrieve data for artist!");
         }).always(function() {
             console.log( "complete" );
+            doneLoading();
         });
     }
 
@@ -170,5 +197,9 @@
     <a href="http://www.reactivemanifesto.org/">
         <img style="border: 0px; position: fixed; right: 0px; top: 0px; z-index: 9000;" src="http://d379ifj7s9wntv.cloudfront.net/reactivemanifesto/images/ribbons/we-are-reactive-black-right.png"/>
     </a>
+
+    <div id="spinner" class="spinner" style="display:none;">
+        <img id="img-spinner" src='@routes.Assets.at("images/spinner.gif")' alt="Loading"/>
+    </div>
 </body>
 </html>
