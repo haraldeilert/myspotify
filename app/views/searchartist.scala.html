@@ -112,6 +112,11 @@
     </div>
 
 
+    <div id="spinner2" style="border: 0px; position: fixed; left: 290px; top: 15px;display:none;">
+        <img id="img-spinner" src='@routes.Assets.at("images/spinner2.gif")' alt="Loading"/>
+    </div>
+
+
 <script type="text/javascript">
     function loading(){
     	var docHeight = $(document).height();
@@ -139,13 +144,8 @@
 
     // get websocket class, firefox has a different way to get it
     var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
-
-    // open pewpew with websocket
     var socket = new WS('@routes.Application.wsInterface().webSocketURL(request)');
-
     var writeMessages = function(event){
-    console.log( "test: " + $('#typeAheadArtist').val() );
-    console.log( "event.data: " + event.data );
 
        if(event.data != $('#typeAheadArtist').val()){
        $.amaran({
@@ -169,7 +169,13 @@
    var artists = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: 'searchArtists?query=%QUERY'
+        remote: {
+            url: 'searchArtists?query=%QUERY',
+            ajax: {
+                beforeSend: function(){ $("#spinner2").show(); },
+                complete: function(){  $("#spinner2").hide(); }
+            }
+        }
     });
 
     artists.initialize();
