@@ -21,7 +21,9 @@
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.simplemodal.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/basic.js")'></script>
 
+    <!-- ************************************************************************************* -->
     <!-- ****************************** MUSTACHE TEMPLATE START ****************************** -->
+    <!-- ************************************************************************************* -->
     <script id="artistTemplate" type="text/template">
         <div style="margin-left: 20px; margin-top: 20px;">
             <!-- Example row of columns -->
@@ -65,7 +67,9 @@
             </div>
         </div>
     </script>
-    <!-- ****************************** MUSTACHE TEMPLATE END ****************************** -->
+    <!-- ************************************************************************************* -->
+    <!-- ****************************** MUSTACHE TEMPLATE END ******************************** -->
+    <!-- ************************************************************************************* -->
 </head>
 <body>
     <div>
@@ -88,7 +92,7 @@
 
         </div>
 
-        <!-- preload the images -->
+        <!-- preload the x image -->
         <div style='display:none'>
             <img src='@routes.Assets.at("images/x.png")' alt='' />
         </div>
@@ -116,7 +120,6 @@
         <img id="img-spinner" src='@routes.Assets.at("images/spinner2.gif")' alt="Loading"/>
     </div>
 
-
 <script type="text/javascript">
     function loading(){
     	var docHeight = $(document).height();
@@ -142,11 +145,10 @@
 		$("#overlay").remove();
     }
 
-    // get websocket class, firefox has a different way to get it
-    var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
-    var socket = new WS('@routes.Application.wsInterface().webSocketURL(request)');
-    var writeMessages = function(event){
-
+//*******************************************************************************************
+//************When socket is retrieving message use amaran to show it************************
+//*******************************************************************************************
+    var executeAmaranNotification = function(event){
        if(event.data != $('#typeAheadArtist').val()){
        $.amaran({
             content:{
@@ -164,8 +166,9 @@
        }
     }
 
-    socket.onmessage = writeMessages;
-
+//*******************************************************************************************
+//******************************Typeahead stuff *********************************************
+//*******************************************************************************************
    var artists = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -191,6 +194,21 @@
         populateArtistData(data.id, data.name)
     });
 
+//*******************************************************************************************
+//******************************Websocket stuff****************************************
+//*******************************************************************************************
+    // get websocket class, firefox has a different way to get it
+    var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
+    var socket = new WS('@routes.Application.wsInterface().webSocketURL(request)');
+
+    //When client receives data from server
+    //execute Amaran notification
+    socket.onmessage = executeAmaranNotification;
+
+
+//*******************************************************************************************
+//*******************Populate mustache template and send socket message**********************
+//*******************************************************************************************
     function populateArtistData(id, artist){
       $.getJSON( "artistInfo?artistId="+id, function(data) {
          var template = $('#artistTemplate').html();
