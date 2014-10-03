@@ -10,6 +10,12 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ *
+ *   Using a java wrapper for calling Spotify Web API.
+ *   @see <a href="https://github.com/thelinmichael/spotify-web-api-java">Spotify Web API Java</a>
+ *
+ */
 public class SpotifyWebApi {
 
     /* Application details necessary to get an access token */
@@ -98,7 +104,7 @@ public class SpotifyWebApi {
     }
 
     public static String getAuthorizeURL() {
-        /* Set the necessary scopes that the applicaiton will need from the user */
+        /* Set the necessary scopes that the application will need from the user */
         List<String> scopes = Arrays.asList("user-read-private", "user-read-email");
         /* Set a state. This is used to prevent cross site request forgeries. */
         String state = "prod";
@@ -129,7 +135,6 @@ public class SpotifyWebApi {
 
     public static List<Artist> getArtistRelatedArtists(String artistId){
         RelatedArtistsRequest relatedArtistsRequest = api.getArtistRelatedArtists(artistId).build();
-
         try {
             return relatedArtistsRequest.get();
         } catch (Exception e) {
@@ -139,7 +144,6 @@ public class SpotifyWebApi {
     }
 
     public static Artist getArtist(String artist) {
-        Logger.debug("***Get artist: " + artist);
         ArtistRequest artistRequest = api.getArtist(artist).build();
         try {
             return artistRequest.get();
