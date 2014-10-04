@@ -10,10 +10,12 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class Robot {
 
+    private static Cancellable cancellable;
+
     public Robot(ActorRef searchActor) {
         Logger.debug("Initaliazing Robot");
         // Make the robot talk every 30 seconds
-        final Cancellable cancellable = Akka.system().scheduler().schedule(
+        cancellable = Akka.system().scheduler().schedule(
                 Duration.create(30, SECONDS),
                 Duration.create(30, SECONDS),
                 searchActor,
@@ -21,5 +23,11 @@ public class Robot {
                 Akka.system().dispatcher(),
                 /** sender **/null
         );
+    }
+
+    public static void cancelMe(){
+        Logger.debug("***cancel me!!");
+        if(cancellable != null)
+            cancellable.cancel();
     }
 }
