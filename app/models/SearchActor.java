@@ -35,6 +35,8 @@ public class SearchActor extends UntypedActor {
 
         in.onMessage(event -> notifyAll(event));
         in.onClose(() -> closeConnection());
+
+        Logger.debug("Number of connected clients: " + connections.size());
     }
 
     private static void closeConnection() {
@@ -48,7 +50,6 @@ public class SearchActor extends UntypedActor {
 
     // Iterate connection list and write incoming message
     public static void notifyAll(String message) {
-        Logger.debug("Number of connected clients: " + connections.size());
         if (connections == null || connections.size() < 1) {
             myLittleSearcher.cancel();
             myLittleSearcher = null;
@@ -61,7 +62,6 @@ public class SearchActor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        Logger.debug("Robot keeping websocket alive.");
         //Randomize the robot search or hide it..
         Random randomizer = new Random();
         String random = robotList.get(randomizer.nextInt(robotList.size()));
