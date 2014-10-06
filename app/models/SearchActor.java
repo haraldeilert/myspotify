@@ -48,7 +48,7 @@ public class SearchActor extends UntypedActor {
 
     // Iterate connection list and write incoming message
     public static void notifyAll(String message) {
-        Logger.debug("***connections: " + connections.size());
+        Logger.debug("Number of connected clients: " + connections.size());
         if (connections == null || connections.size() < 1) {
             myLittleSearcher.cancelMe();
             myLittleSearcher = null;
