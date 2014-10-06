@@ -50,7 +50,7 @@ public class SearchActor extends UntypedActor {
     public static void notifyAll(String message) {
         Logger.debug("Number of connected clients: " + connections.size());
         if (connections == null || connections.size() < 1) {
-            myLittleSearcher.cancelMe();
+            myLittleSearcher.cancel();
             myLittleSearcher = null;
         }
 

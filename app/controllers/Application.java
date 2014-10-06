@@ -79,7 +79,6 @@ public class Application extends Controller {
         }
         jsonToReturn.put("albums", jsonArrayAlbums);
 
-        Logger.debug(jsonToReturn.toJSONString());
         return ok(jsonToReturn.toJSONString());
     }
 

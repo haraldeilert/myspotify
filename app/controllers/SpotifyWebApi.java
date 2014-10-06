@@ -113,7 +113,6 @@ public class SpotifyWebApi {
 
     public static List<Track> getTopTracks(String artistId, String countryCode){
         TopTracksRequest topTracksRequest = api.getTopTracksForArtist(artistId, countryCode).build();
-
         try {
             return topTracksRequest.get();
         } catch (Exception e) {
@@ -124,7 +123,6 @@ public class SpotifyWebApi {
 
     public static Page<SimpleAlbum> getAlbumsForArtist(String artistId){
         AlbumsForArtistRequest albumsForArtistRequest = api.getAlbumsForArtist(artistId).build();
-
         try {
             return albumsForArtistRequest.get();
         } catch (Exception e) {
