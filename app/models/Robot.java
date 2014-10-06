@@ -26,8 +26,11 @@ public class Robot {
     }
 
     public static void cancelMe(){
-        Logger.debug("***cancel me!!");
+        Logger.debug("No more clients connected, cancel Robot instance.");
+        boolean cancelled = false;
         if(cancellable != null)
-            cancellable.cancel();
+            cancelled = cancellable.cancel();
+
+        Logger.debug("Cancel success: " + cancelled);
     }
 }

@@ -30,10 +30,8 @@ public class SearchActor extends UntypedActor {
     public static void start(WebSocket.In<String> in, WebSocket.Out<String> out) {
         Logger.debug("Add connection");
         connections.add(out);
-        if (myLittleSearcher == null) {
-            Logger.debug("***recreate Robot");
+        if (myLittleSearcher == null)
             myLittleSearcher = new Robot(defaultActor);
-        }
 
         in.onMessage(event -> notifyAll(event));
         in.onClose(() -> closeConnection());
@@ -43,7 +41,7 @@ public class SearchActor extends UntypedActor {
         Logger.debug("One client has closed a connection, remove from list.");
         try {
             connections.remove(connections.size() - 1);
-        }catch (Exception e){
+        } catch (Exception e) {
             Logger.error("Failed to remove client from connection");
         }
     }
