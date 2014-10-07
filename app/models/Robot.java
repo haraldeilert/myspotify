@@ -14,10 +14,10 @@ public class Robot {
 
     public Robot(ActorRef searchActor) {
         Logger.debug("Initaliazing Robot");
-        // Make the robot talk every 30 seconds
+        // Make the robot keep the websocket open every 55 seconds
         cancellable = Akka.system().scheduler().schedule(
-                Duration.create(30, SECONDS),
-                Duration.create(30, SECONDS),
+                Duration.create(55, SECONDS),
+                Duration.create(55, SECONDS),
                 searchActor,
                 new SearchActor.RobotActor(),
                 Akka.system().dispatcher(),
