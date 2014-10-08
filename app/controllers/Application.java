@@ -2,6 +2,7 @@ package controllers;
 
 import com.wrapper.spotify.models.*;
 import models.SearchActor;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import play.Logger;
@@ -64,6 +65,7 @@ public class Application extends Controller {
         for (Artist artist : relatedArtistList) {
             JSONObject jsonObjectArtist = new JSONObject();
             jsonObjectArtist.put("artist", artist.getName());
+            jsonObjectArtist.put("artistEncoded", StringEscapeUtils.escapeEcmaScript(artist.getName()));
             jsonObjectArtist.put("id", artist.getId());
             jsonArrayRelatedArtists.add(jsonObjectArtist);
         }
