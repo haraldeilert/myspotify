@@ -15,8 +15,10 @@ public class Robot {
     public Robot(ActorRef searchActor) {
         Logger.debug("Initaliazing Robot");
         /**
-         * Schedules a Robot to keep the websocket open.
-         * Otherwise it will be closed after 60s..
+         * On Heroku the websocket will be closed after 55s if no message is sent in either direction.
+         * Read more here <a href="https://devcenter.heroku.com/articles/http-routing#timeouts">here</a>.
+         *
+         * Therefore we need to schedule a Robot to keep the websocket alive.
          */
         cancellable = Akka.system().scheduler().schedule(
                 Duration.create(55, SECONDS),
