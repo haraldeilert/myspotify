@@ -12,25 +12,45 @@ import play.mvc.WebSocket;
 
 import java.util.List;
 
+/**
+ * This is the main controller class
+ * All application routes are defined in the files "routes"
+ *
+ * Controllers act as mapper between the HTTP world (that is stateless, and request/response based)
+ * and the Model layer that is fully object oriented.
+ *
+ *
+ */
 public class Application extends Controller {
-
-    public static final String DATA = "data";
-
-    public static Result personalPlaylist() {
-        String url = SpotifyWebApi.getAuthorizeURL();
-        return redirect(url);
-    }
-
-    public static Result callback(String code) {
-        String accessToken = SpotifyWebApi.getAccessToken(code);
-        return ok(views.html.playlists.render(accessToken));
-    }
 
     @SuppressWarnings("unchecked")
     public static Result index() {
         return ok(views.html.searchartist.render());
     }
 
+    /**
+     * To view a personal playlist an authorization is needed
+     */
+    public static Result personalPlaylist() {
+        String url = SpotifyWebApi.getAuthorizeURL();
+        return redirect(url);
+    }
+
+    /**
+     * Callback from the authorization
+     */
+    public static Result callback(String code) {
+        String accessToken = SpotifyWebApi.getAccessToken(code);
+        return ok(views.html.playlists.render(accessToken));
+    }
+
+
+    /**
+     * Get artist info
+     *
+     * @param artistId
+     * @return JSON response
+     */
     public static Result artistInfo(String artistId) {
         //Main Json Object
         JSONObject jsonToReturn = new JSONObject();
@@ -84,6 +104,12 @@ public class Application extends Controller {
         return ok(jsonToReturn.toJSONString());
     }
 
+    /**
+     * Search for artists
+     *
+     * @param query
+     * @return JSON response
+     */
     public static Result searchArtists(String query) {
         JSONArray artistListArray = new JSONArray();
 
@@ -98,6 +124,12 @@ public class Application extends Controller {
         return ok(artistListArray.toJSONString());
     }
 
+    /**
+     * Fetch all personal playlist
+     *
+     * @param accessToken
+     * @return JSON response
+     */
     public static Result getPlayList(String accessToken) {
         User user = SpotifyWebApi.getCurrentUser(accessToken);
         Page<SimplePlaylist> playlistPage = SpotifyWebApi.getPlaylistsForUser(user.getId(), accessToken);
@@ -139,7 +171,7 @@ public class Application extends Controller {
             }
         }
         JSONObject data = new JSONObject();
-        data.put(DATA, mainArray);
+        data.put("data", mainArray);
         return ok(data.toJSONString());
     }
 

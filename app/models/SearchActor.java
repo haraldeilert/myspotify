@@ -73,9 +73,4 @@ public class SearchActor extends UntypedActor {
         String random = robotList.get(randomizer.nextInt(robotList.size()));
         notifyAll(random, true);
     }
-
-    public static class RobotActor {
-        public RobotActor() {
-        }
-    }
 }
