@@ -1,0 +1,40 @@
+<div id="artistTemplate" style="margin-left: 20px; margin-top: 20px;">
+    <!-- Example row of columns -->
+
+    <div style="display: inline-block;position: relative;left: 0; vertical-align:top;margin-right: 50px;">
+        <img style="border: solid 1px white;" height="{{height}}" width="{{width}}" src="{{url}}">
+    </div>
+    <div class="trackDiv">
+        <h2>Top tracks</h2>
+        <div class="borderStyle">&nbsp;</div>
+        <div id="list2">
+            <ol>
+                {{#tracks}}
+                <li><p><em><a href="{{spotifyurl}}" target="_blank">{{track}}</a></em></p></li>
+                {{/tracks}}
+            </ol>
+        </div>
+    </div>
+    <div class="albumDiv">
+        <h2>Albums</h2>
+        <div class="borderStyle">&nbsp;</div>
+        <div id="list2">
+            <ol>
+                {{#albums}}
+                <li><p><em>{{album}}</em></p></li>
+                {{/albums}}
+            </ol>
+        </div>
+    </div>
+    <div class="artistDiv">
+        <h2>Related artists</h2>
+        <div class="borderStyle">&nbsp;</div>
+        <div id="list2">
+            <ol>
+                {{#relatedartists}}
+                <li><p><em><a href="#" class="artistLink" data-key='{"id":"{{id}}", "name":"{{artistEncoded}}"}'>{{artist}}</a></em></p></li>
+                {{/relatedartists}}
+            </ol>
+        </div>
+    </div>
+</div>

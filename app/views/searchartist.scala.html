@@ -18,56 +18,8 @@
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.amaran.min.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.simplemodal.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/basic.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/main.js")'></script>
 
-    <!-- ************************************************************************************* -->
-    <!-- ****************************** MUSTACHE TEMPLATE START ****************************** -->
-    <!-- ************************************************************************************* -->
-    <script id="artistTemplate" type="text/template">
-        <div style="margin-left: 20px; margin-top: 20px;">
-            <!-- Example row of columns -->
-
-                <div style="display: inline-block;position: relative;left: 0; vertical-align:top;margin-right: 50px;">
-                    <img style="border: solid 1px white;" height="{{height}}" width="{{width}}" src="{{url}}">
-                </div>
-                <div class="trackDiv">
-                    <h2>Top tracks</h2>
-                    <div class="borderStyle">&nbsp;</div>
-                    <div id="list2">
-                        <ol>
-                            {{#tracks}}
-                                <li><p><em><a href="{{spotifyurl}}" target="_blank">{{track}}</a></em></p></li>
-                            {{/tracks}}
-                        </ol>
-                    </div>
-                </div>
-                <div class="albumDiv">
-                    <h2>Albums</h2>
-                    <div class="borderStyle">&nbsp;</div>
-                    <div id="list2">
-                        <ol>
-                            {{#albums}}
-                            <li><p><em>{{album}}</em></p></li>
-                            {{/albums}}
-                        </ol>
-                    </div>
-                </div>
-                <div class="artistDiv">
-                    <h2>Related artists</h2>
-                    <div class="borderStyle">&nbsp;</div>
-                    <div id="list2">
-                        <ol>
-                            {{#relatedartists}}
-                            <li><p><em><a onclick="javascript:loading();populateArtistData('{{id}}', '{{artistEncoded}}')" href="#">{{artist}}</a></em></p></li>
-                            {{/relatedartists}}
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </script>
-    <!-- ************************************************************************************* -->
-    <!-- ****************************** MUSTACHE TEMPLATE END ******************************** -->
-    <!-- ************************************************************************************* -->
 </head>
 <body>
     <div>
@@ -115,110 +67,9 @@
     </div>
 
 <script type="text/javascript">
-    function loading(){
-    	var docHeight = $(document).height();
-
-       	$("body").append("<div id='overlay'></div>");
-
-       	$("#overlay")
-          .height(docHeight)
-          .css({
-             'opacity' : 0.4,
-             'position': 'absolute',
-             'top': 0,
-             'left': 0,
-             'background-color': 'black',
-             'width': '100%',
-             'z-index': 5000
-          });
-       	$("#spinner").show();
-    }
-
-    function doneLoading(){
-    	$("#spinner").hide();
-		$("#overlay").remove();
-    }
-
-//*******************************************************************************************
-//************When socket is retrieving message use amaran to show it************************
-//*******************************************************************************************
-    var executeAmaranNotification = function(event){
-       if(event.data != $('#typeAheadArtist').val()){
-       $.amaran({
-            content:{
-                bgcolor:'#8e44ad',
-                color:'#fff',
-                message:'Another user is searching on: ' + event.data
-            },
-                theme:'colorful',
-                position:'bottom left',
-                closeButton:true,
-                cssanimationIn: 'rubberBand',
-                cssanimationOut: 'bounceOutUp'
-
-            });
-       }
-    }
-
-//*******************************************************************************************
-//******************************Typeahead stuff *********************************************
-//*******************************************************************************************
-   var artists = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: 'searchArtists?query=%QUERY',
-            ajax: {
-                beforeSend: function(){ $("#spinner2").show(); },
-                complete: function(){  $("#spinner2").hide(); }
-            }
-        }
-    });
-
-    artists.initialize();
-
-    $('.typeahead').typeahead(
-        null, {
-        name: 'artists',
-        displayKey: 'name',
-        source: artists.ttAdapter()
-    }).on('typeahead:selected', function(event, data){
-        loading();
-        console.log(data.id);
-        populateArtistData(data.id, data.name)
-    });
-
-//*******************************************************************************************
-//******************************Websocket stuff****************************************
-//*******************************************************************************************
-    // get websocket class, firefox has a different way to get it
-    var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
-    var socket = new WS('@routes.Application.wsInterface().webSocketURL(request)');
-
-    //When client receives data from server
-    //execute Amaran notification
-    socket.onmessage = executeAmaranNotification;
-
-//*******************************************************************************************
-//*******************Populate mustache template and send socket message**********************
-//*******************************************************************************************
-    function populateArtistData(id, artist){
-      $.getJSON( "artistInfo?artistId="+id, function(data) {
-         var template = $('#artistTemplate').html();
-         var html = Mustache.to_html(template, data);
-         $('#artistWrapper').html(html);
-         $('#typeAheadArtist').val(artist);
-         socket.send(artist);
-        }).done(function() {
-            console.log( "second success" );
-        }).fail(function() {
-            console.log( "error" );
-            alert("Couldn't retrieve data for artist!");
-        }).always(function() {
-            console.log( "complete" );
-            doneLoading();
-        });
-    }
+   MAIN.init('@routes.Application.wsInterface().webSocketURL(request)', '@routes.Assets.at("templates/artist_template.html")');
+   MAIN.execute();
 </script>
+
 </body>
 </html>
