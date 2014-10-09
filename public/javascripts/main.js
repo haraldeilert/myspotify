@@ -1,35 +1,45 @@
-   function loading(){
-      var docHeight = $(document).height();
-
-      $("body").append("<div id='overlay'></div>");
-
-      $("#overlay").height(docHeight).css({
-         'opacity' : 0.4,
-         'position': 'absolute',
-         'top': 0,
-         'left': 0,
-         'background-color': 'black',
-         'width': '100%',
-         'z-index': 5000
-      });
-      $("#spinner").show();
-   }
-
-   function doneLoading(){
-   	$("#spinner").hide();
-    $("#overlay").remove();
-   }
-
-
+/*
+ * MySpotify javascript logic
+ *
+ * Copyright (c) 2014 Harald Eilert
+ *
+ * Keep javascript logic here
+ *
+ */
    var MAIN = MAIN || (function(){
-   var _wsInterface;// private
-   var _htmlTemplate;// private
+    var _wsInterface;// private
+    var _htmlTemplate;// private
        return {
-           init : function(wsInterface, htmlTemplate) {
-                _wsInterface = wsInterface;
-                _htmlTemplate = htmlTemplate;
+           init : function(wsInterface, mTemplate) {
+                _wsInterface = wsInterface; //Interface for websocket
+                _mTemplate = mTemplate; //Mustache template
            },
            execute : function() {
+
+            //*******************************************************************************************
+            //*********************Handle gui spinner while making ajax call*****************************
+            //*******************************************************************************************
+            var loading = function(){
+                 var docHeight = $(document).height();
+
+                 $("body").append("<div id='overlay'></div>");
+
+                 $("#overlay").height(docHeight).css({
+                    'opacity' : 0.4,
+                    'position': 'absolute',
+                    'top': 0,
+                    'left': 0,
+                    'background-color': 'black',
+                    'width': '100%',
+                    'z-index': 5000
+                 });
+                 $("#spinner").show();
+              }
+
+              var doneLoading = function(){
+              	$("#spinner").hide();
+                $("#overlay").remove();
+              }
 
            //*******************************************************************************************
            //************When socket is retrieving a message use amaran to show it**********************
@@ -80,8 +90,9 @@
                });
 
            //*******************************************************************************************
-           //******************************Websocket stuff****************************************
+           //******************************Websocket stuff**********************************************
            //*******************************************************************************************
+
            // get websocket class, firefox has a different way to get it
            var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
            var socket = new WS(_wsInterface);
@@ -95,9 +106,9 @@
             //*******************************************************************************************
              var populateArtistData = function(id, artist){
                  var template;
-                 //Load the HTML template used below
+                 //Load the Mustache template used below
                  $.get(
-                    _htmlTemplate,
+                    _mTemplate,
                      function(d){
                          template = d
                      }
