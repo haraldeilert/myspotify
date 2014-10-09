@@ -21,8 +21,8 @@ public class Robot {
          * Therefore we need to schedule a Robot to keep the websocket alive.
          */
         cancellable = Akka.system().scheduler().schedule(
-                Duration.create(55, SECONDS),
-                Duration.create(55, SECONDS),
+                Duration.create(50, SECONDS),
+                Duration.create(50, SECONDS),
                 searchActor,
                 "",
                 Akka.system().dispatcher(),
