@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2014.
+ */
 package models;
 
 import akka.actor.ActorRef;
@@ -13,7 +16,11 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by Harald on 2014-09-23.
+ * The Actor Model provides a higher level of abstraction for writing concurrent and distributed systems.
+ * It alleviates the developer from having to deal with explicit locking and thread management,
+ * making it easier to write correct concurrent and parallel systems.
+ *
+ * @author Harald Eilert
  */
 public class SearchActor extends UntypedActor {
 

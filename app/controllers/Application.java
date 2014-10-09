@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2014.
+ */
 package controllers;
 
 import com.wrapper.spotify.models.*;
@@ -19,7 +22,7 @@ import java.util.List;
  * Controllers act as mapper between the HTTP world (that is stateless, and request/response based)
  * and the Model layer that is fully object oriented.
  *
- *
+ * @author Harald Eilert
  */
 public class Application extends Controller {
 

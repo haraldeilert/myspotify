@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2014.
+ */
 package controllers;
 
 import com.wrapper.spotify.Api;
@@ -11,10 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Using a java wrapper for calling Spotify Web API.
+ * @see <a href="https://github.com/thelinmichael/spotify-web-api-java">Spotify Web API Java</a>
  *
- *   Using a java wrapper for calling Spotify Web API.
- *   @see <a href="https://github.com/thelinmichael/spotify-web-api-java">Spotify Web API Java</a>
- *
+ * @author Harald Eilert
  */
 public class SpotifyWebApi {
 
