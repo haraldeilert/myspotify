@@ -13,7 +13,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * On Heroku the websocket will be closed after 55s if no message is sent in either direction.
- * Read more here <a href="https://devcenter.heroku.com/articles/http-routing#timeouts">here</a>.
+ * Read more <a href="https://devcenter.heroku.com/articles/http-routing#timeouts">here</a>.
  *
  * Therefore we need to schedule a Robot to keep the websocket alive and of course set the timeout below 55s.
  *
