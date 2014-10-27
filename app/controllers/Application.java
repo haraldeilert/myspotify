@@ -61,7 +61,7 @@ public class Application extends Controller {
         //ARTIST INFO
         Artist artistJson = SpotifyWebApi.getArtist(artistId);
         List<Image> imagesList = artistJson.getImages();
-        for (Image image : imagesList) {//Choose an image not larger than 100
+        for (Image image : imagesList) {//Choose an image not larger than 400
             if (image.getHeight() < 400) {
                 jsonToReturn.put("url", image.getUrl());
                 jsonToReturn.put("height", image.getHeight());
