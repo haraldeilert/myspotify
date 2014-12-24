@@ -24,7 +24,7 @@ import java.util.Random;
  */
 public class SearchActor extends UntypedActor {
 
-    //To keep the websocket alive we have a robot that is pretending to search with this strings
+    //To keep the websocket alive we have a robot that is pretending to search with these strings
     private static final List<String> robotList = new ArrayList<String>(Arrays.asList("Kendrick Lamar", "Big L", "Schoolboy Q", "Mos def", "EPMD", "Nas", "Jay-Rock", "Petter", "Kent", "Bruce Springsteen", "Gang Starr", "Robyn"));
 
     private static ActorRef searchActor = Akka.system().actorOf(Props.create(SearchActor.class));
