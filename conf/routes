@@ -8,10 +8,10 @@ GET        /                              controllers.Application.index()
 #Playlist
 GET        /callback                      controllers.Application.callback(code)
 GET        /getPlayList                   controllers.Application.getPlayList(accessToken)
+GET        /myplaylist                    controllers.Application.personalPlaylist()
 
 #Search artist
 GET        /wsInterface                   controllers.Application.wsInterface()
-GET        /myplaylist                    controllers.Application.personalPlaylist()
 GET        /artistInfo                    controllers.Application.artistInfo(artistId)
 GET        /searchArtists                 controllers.Application.searchArtists(query)
 
